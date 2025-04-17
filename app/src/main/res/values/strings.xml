@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Nagu Organic</string>
+    <string name="title_activity_initial">Initial</string>
+    <string name="welcome_message">Hi, Welcome </string>
+    <string name="call_nagu">📞 Call: Nagu Organics</string>
+    <string name="whatsapp_nagu">💬 WhatsApp: Nagu Organics</string>
+    <string name="product_list_button">Available Products</string>
+    <string name="title_activity_cart">CartActivity</string>
+    <string name="title_activity_checkout">CheckoutActivity</string>
+</resources>
