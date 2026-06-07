@@ -51,8 +51,9 @@ android {
                 "proguard-rules.pro"
             )
             firebaseAppDistribution {
-                // REMOVE: artifactFile = "..." (This is what caused the error)
                 artifactType = "APK"
+                // Add this line to explicitly point to the output directory
+                artifactPath = "app/build/outputs/apk/release/app-release.apk"
                 releaseNotes = "Production Release v1.1"
                 groups = "testers"
             }
