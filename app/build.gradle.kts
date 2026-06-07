@@ -27,20 +27,21 @@
 
         buildTypes {
             debug  {
-
-    //            isMinifyEnabled = false
-    //            proguardFiles(
-    //                getDefaultProguardFile("proguard-android-optimize.txt"),
-    //                "proguard-rules.pro"
-    //            )
-            }
-            release {
                 firebaseAppDistribution {
                     artifactType = "APK"
-                    serviceCredentialsFile = "path/to/your/service-account.json" // Or use environment variables
+                    // It is safer to use an environment variable in Jenkins
+                    // than hardcoding a path here
                     releaseNotes = "New test build from Jenkins"
-                    groups = "your-tester-group-name"
+                    groups = "testers"
                 }
+            }
+            release {
+//                firebaseAppDistribution {
+//                    artifactType = "APK"
+//                    serviceCredentialsFile = "path/to/your/service-account.json" // Or use environment variables
+//                    releaseNotes = "New test build from Jenkins"
+//                    groups = "your-tester-group-name"
+//                }
             }
         }
         compileOptions {

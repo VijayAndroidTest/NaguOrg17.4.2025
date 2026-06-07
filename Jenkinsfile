@@ -28,8 +28,9 @@ pipeline {
         stage('Distribute') {
             steps {
                 withCredentials([file(credentialsId: 'firebase-service-json', variable: 'SERVICE_ACCOUNT_FILE')]) {
-                    // Replace 'nagu-testers' with your actual group alias from Firebase
-                    bat "gradlew appDistributionUploadRelease -PappDistributionServiceCredentialsFile=${SERVICE_ACCOUNT_FILE} -PappDistributionGroups=testers"
+                    // Use single quotes for the string and concatenation to ensure the secret
+                    // path is passed as a safe argument to the Gradle command
+                    bat 'gradlew.bat appDistributionUploadDebug -PappDistributionServiceCredentialsFile="' + SERVICE_ACCOUNT_FILE + '" -PappDistributionGroups=testers'
                 }
             }
         }
