@@ -51,6 +51,7 @@ android {
                 "proguard-rules.pro"
             )
             firebaseAppDistribution {
+                // REMOVE: artifactFile = "..." (This is what caused the error)
                 artifactType = "APK"
                 releaseNotes = "Production Release v1.1"
                 groups = "testers"

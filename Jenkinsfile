@@ -19,8 +19,8 @@ pipeline {
                         string(credentialsId: 'keystore-password', variable: 'KEYSTORE_PASSWORD'),
                         string(credentialsId: 'key-password', variable: 'KEY_PASSWORD')
                 ]) {
-                    // This uses the 'release' signing config defined in gradle
-                    bat 'gradlew.bat bundleRelease'
+                    // Change 'bundleRelease' to 'assembleRelease' to build an APK
+                    bat 'gradlew.bat assembleRelease'
                 }
             }
         }
