@@ -16,3 +16,13 @@
 -dontwarn sun.misc.Unsafe
 -dontwarn com.google.common.util.concurrent.ListenableFuture
 -dontwarn androidx.appcompat.view.ContextThemeWrapper
+# Replace 'com.example.naguorg' with the actual package where your data models live
+-keep class com.example.naguorg.** { *; }
+
+# If you use GSON for serialization/deserialization
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class com.google.gson.** { *; }
+-keepclassmembers class com.example.naguorg.** {
+    <fields>;
+}
