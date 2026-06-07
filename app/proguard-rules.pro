@@ -19,3 +19,14 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+# Keep Razorpay classes
+-keep class com.razorpay.** { *; }
+
+# Keep Proguard annotations
+-keep class proguard.annotation.** { *; }
+-dontwarn proguard.annotation.**
+
+# Fix other missing warnings
+-dontwarn sun.misc.Unsafe
+-dontwarn com.google.common.util.concurrent.ListenableFuture
+-dontwarn androidx.appcompat.view.ContextThemeWrapper
