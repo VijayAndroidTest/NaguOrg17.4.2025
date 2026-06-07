@@ -16,9 +16,7 @@ android {
 
     signingConfigs {
         create("release") {
-            // Use double backslashes to escape the path in Kotlin strings
             storeFile = file("C:\\Jenkins\\keys\\nagukey.jks")
-            // DO NOT put passwords here. Jenkins will provide them via environment variables.
             storePassword = System.getenv("KEYSTORE_PASSWORD")
             keyAlias = "nagukey"
             keyPassword = System.getenv("KEY_PASSWORD")
@@ -29,7 +27,6 @@ android {
         applicationId = "com.example.naguorg"
         minSdk = 24
         targetSdk = 35
-        // Updated versioning
         versionCode = 2
         versionName = "1.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -52,7 +49,7 @@ android {
             )
             firebaseAppDistribution {
                 artifactType = "APK"
-                // Add this line to explicitly point to the output directory
+                // This path is correct for assembleRelease output
                 artifactPath = "app/build/outputs/apk/release/app-release.apk"
                 releaseNotes = "Production Release v1.1"
                 groups = "testers"
