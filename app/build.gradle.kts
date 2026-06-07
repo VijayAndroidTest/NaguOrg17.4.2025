@@ -112,8 +112,8 @@ dependencies {
     implementation("androidx.room:room-runtime:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
-    implementation("com.google.zxing:core:3.5.1")
-    implementation("com.razorpay:checkout:1.6.33")
+
+
     implementation("com.google.zxing:core:3.5.2")
     implementation("androidx.compose.ui:ui-graphics:1.5.0")
     implementation ("com.google.android.gms:play-services-base:18.2.0")
