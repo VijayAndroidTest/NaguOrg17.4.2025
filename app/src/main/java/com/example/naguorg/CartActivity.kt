@@ -144,7 +144,7 @@ fun CartScreen(cartItems: List<Product>, onCartUpdated: (List<Product>) -> Unit)
                 }
             )
         },
-        bottomBar = { CartBottomBar(totalPrice, items, LocalContext.current) }
+        bottomBar = { CartBottomBar(items, LocalContext.current) }
     ) { paddingValues ->
         Column(
 
@@ -273,8 +273,10 @@ fun CartScreen(cartItems: List<Product>, onCartUpdated: (List<Product>) -> Unit)
         }
     }
     @Composable
-    fun CartBottomBar(totalPrice: Double, cartItems: List<Product>, context: Context) {
+    fun CartBottomBar(cartItems: List<Product>, context: Context) {
         val isCartEmpty = cartItems.isEmpty()
+        // Calculate total here using the helper
+        val totalPrice = remember(cartItems) { calculateTotalPrice(cartItems) }
 
         Column(
             modifier = Modifier
@@ -287,7 +289,7 @@ fun CartScreen(cartItems: List<Product>, onCartUpdated: (List<Product>) -> Unit)
                 text = "Total Price: ₹${String.format("%.2f", totalPrice)}",
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
-                fontStyle = FontStyle.Italic // Make text italic
+                fontStyle = FontStyle.Italic
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -300,31 +302,20 @@ fun CartScreen(cartItems: List<Product>, onCartUpdated: (List<Product>) -> Unit)
                     onClick = {
                         if (!isCartEmpty) {
                             val intent = Intent(context, CheckoutActivity::class.java)
-
                             intent.putParcelableArrayListExtra("cart_items", ArrayList(cartItems))
-                            startActivity(intent)
-//                            val intent = Intent(context, CheckoutActivity::class.java)
-//                            context.startActivity(intent)
+                            context.startActivity(intent)
                         }
                     },
                     modifier = Modifier.weight(1f),
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF004AAD)),
                     enabled = !isCartEmpty
-                )
-                {
-                    Icon(
-
-
-                        imageVector = Icons.Default.ShoppingCart,
-                        contentDescription = "Buy",
-                        tint = Color.White,
-                        modifier = Modifier.size(20.dp)
-                    )
+                ) {
+                    Icon(Icons.Default.ShoppingCart, "Buy", tint = Color.White, modifier = Modifier.size(20.dp))
                     Spacer(modifier = Modifier.width(8.dp))
                     Text("Buy All", color = Color.White, fontWeight = FontWeight.Bold)
                 }
 
-                Spacer(modifier = Modifier.width(8.dp)) // Space between the buttons
+                Spacer(modifier = Modifier.width(8.dp))
 
                 Button(
                     onClick = {
@@ -337,25 +328,11 @@ fun CartScreen(cartItems: List<Product>, onCartUpdated: (List<Product>) -> Unit)
                     enabled = !isCartEmpty
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            imageVector = Icons.Default.Share, // Default Share Icon
-                            contentDescription = "Share",
-                            tint = Color.White, // White color to match text
-                            modifier = Modifier.size(20.dp) // Adjust size as needed
-                        )
-                        Spacer(modifier = Modifier.width(8.dp)) // Space between icon and text
+                        Icon(Icons.Default.Share, "Share", tint = Color.White, modifier = Modifier.size(20.dp))
+                        Spacer(modifier = Modifier.width(8.dp))
                         Text("Share All", color = Color.White, fontWeight = FontWeight.Bold)
                     }
                 }
-            }
-
-            if (isCartEmpty) {
-                Text(
-                    text = "Your cart is empty! Add items before proceeding.",
-                    color = Color.Red,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(top = 8.dp)
-                )
             }
         }
     }

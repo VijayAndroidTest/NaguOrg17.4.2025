@@ -3,9 +3,10 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
+                // Change 'refs/heads/master' to 'refs/heads/main'
                 checkout([$class: 'GitSCM',
-                          branches: [[name: 'refs/heads/master']],
-                          userRemoteConfigs: [[url: 'https://github.com/VijayAndroidTest/NaguOrg.git']]])
+                          branches: [[name: 'refs/heads/main']],
+                          userRemoteConfigs: [[url: 'https://github.com/VijayAndroidTest/NaguOrg17.4.2025.git']]])
             }
         }
         stage('Test') {
@@ -22,6 +23,14 @@ pipeline {
         stage('Archive APK') {
             steps {
                 archiveArtifacts artifacts: 'app/build/outputs/apk/debug/*.apk', fingerprint: true
+            }
+        }
+        stage('Distribute') {
+            steps {
+                withCredentials([file(credentialsId: 'firebase-service-json', variable: 'SERVICE_ACCOUNT_FILE')]) {
+                    // Replace 'nagu-testers' with your actual group alias from Firebase
+                    bat "gradlew appDistributionUploadRelease -PappDistributionServiceCredentialsFile=${SERVICE_ACCOUNT_FILE} -PappDistributionGroups=testers"
+                }
             }
         }
     }

@@ -12,23 +12,6 @@
     }
 
     android {
-
-//        // 1. Add this to define the grouping
-//        flavorDimensions.add("org")
-//
-//        // 2. Add this block to define your flavors
-//        productFlavors {
-//            create("nagu") {
-//                dimension = "org"
-//                applicationId = "com.example.naguorg"
-//            }
-//            create("vijay") {
-//                dimension = "org"
-//                // This makes the package unique, creating a separate app on the phone
-//                applicationId = "com.example.naguorg.vijay"
-//            }
-//        }
-
         namespace = "com.example.naguorg"
         compileSdk = 35
 
@@ -50,6 +33,14 @@
     //                getDefaultProguardFile("proguard-android-optimize.txt"),
     //                "proguard-rules.pro"
     //            )
+            }
+            release {
+                firebaseAppDistribution {
+                    artifactType = "APK"
+                    serviceCredentialsFile = "path/to/your/service-account.json" // Or use environment variables
+                    releaseNotes = "New test build from Jenkins"
+                    groups = "your-tester-group-name"
+                }
             }
         }
         compileOptions {
