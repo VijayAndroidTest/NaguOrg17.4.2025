@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "924827024871-bfeorkkv1co0ra56a4dhs60cs31u71ut.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.naguorg",
+            "certificate_hash": "c57f707260d0f594d82cb6b00f5986bd03107cf8"
+          }
+        },
+        {
+          "client_id": "924827024871-jjn1iav59nkda8pfghdutd74uomulgge.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.naguorg",
+            "certificate_hash": "f1a486c4dc55131bd236b735985bd6ccfdb13da2"
+          }
+        },
+        {
           "client_id": "924827024871-ojjn6cajlevvta20d4mv6pkqg1u2b94q.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -30,6 +46,65 @@
             {
               "client_id": "924827024871-ojjn6cajlevvta20d4mv6pkqg1u2b94q.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "924827024871-co7stlp9edcekpvml4ods8l91thakj63.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.vijayarajan1003.naguorganics"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:924827024871:android:4d246759c07677e7ea5142",
+        "android_client_info": {
+          "package_name": "com.vijayarajan1003.naguorganics"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "924827024871-tmfroflj4ocj65v7rbg2ils93qg70qkt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vijayarajan1003.naguorganics",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "924827024871-uqtgh4m13meuo744nm4ft6tboj7aq665.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vijayarajan1003.naguorganics",
+            "certificate_hash": "e4e57e4dc22dde60cd0b1c3c6163614377020f3f"
+          }
+        },
+        {
+          "client_id": "924827024871-ojjn6cajlevvta20d4mv6pkqg1u2b94q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgfSc7e-Sgpri8KImMJ5UC3HHC7fFQlgQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "924827024871-ojjn6cajlevvta20d4mv6pkqg1u2b94q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "924827024871-co7stlp9edcekpvml4ods8l91thakj63.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.vijayarajan1003.naguorganics"
+              }
             }
           ]
         }

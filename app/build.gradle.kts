@@ -51,7 +51,7 @@ android {
                 "proguard-rules.pro"
             )
             firebaseAppDistribution {
-                artifactType = "AAB"
+                artifactType = "APK"
                 releaseNotes = "Production Release v1.1"
                 groups = "testers"
             }
