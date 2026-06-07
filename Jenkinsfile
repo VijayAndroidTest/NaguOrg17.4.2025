@@ -28,9 +28,9 @@ pipeline {
         stage('Distribute') {
             steps {
                 withCredentials([file(credentialsId: 'firebase-service-json', variable: 'SERVICE_ACCOUNT_FILE')]) {
-                    // Use single quotes for the string and concatenation to ensure the secret
-                    // path is passed as a safe argument to the Gradle command
-                    bat 'gradlew.bat appDistributionUploadDebug -PappDistributionServiceCredentialsFile="' + SERVICE_ACCOUNT_FILE + '" -PappDistributionGroups=testers'
+                    // Set the variable for the environment, then run the task
+                    // We use 'set' to define the env var, then the command
+                    bat 'set GOOGLE_APPLICATION_CREDENTIALS=%SERVICE_ACCOUNT_FILE% && gradlew.bat appDistributionUploadDebug -PappDistributionGroups=testers'
                 }
             }
         }
