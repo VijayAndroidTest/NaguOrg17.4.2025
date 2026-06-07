@@ -17,7 +17,7 @@ android {
     signingConfigs {
         create("release") {
             // Use double backslashes to escape the path in Kotlin strings
-            storeFile = file("C:\\Users\\vraja\\OneDrive\\Desktop\\nagukey.jks")
+            storeFile = file("C:\\Jenkins\\keys\\nagukey.jks")
             // DO NOT put passwords here. Jenkins will provide them via environment variables.
             storePassword = System.getenv("KEYSTORE_PASSWORD")
             keyAlias = "nagukey"
