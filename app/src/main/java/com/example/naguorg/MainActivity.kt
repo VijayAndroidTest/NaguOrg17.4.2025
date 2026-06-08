@@ -35,17 +35,13 @@ class MainActivity : ComponentActivity() {
                 remoteConfig.setConfigSettingsAsync(configSettings)
 
                 // Fetch and Activate
-                // ... inside onCreate, in the fetchAndActivate listener
                 remoteConfig.fetchAndActivate()
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
                             val updateMessage = remoteConfig.getString("update_message")
                             val updateUrl = remoteConfig.getString("update_url")
-
-                            // Get the minimum version allowed
                             val minVersionCode = remoteConfig.getLong("min_version_code").toInt()
 
-                            // Get current app version
                             val currentVersionCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                                 packageManager.getPackageInfo(packageName, 0).longVersionCode.toInt()
                             } else {
@@ -53,15 +49,18 @@ class MainActivity : ComponentActivity() {
                                 packageManager.getPackageInfo(packageName, 0).versionCode
                             }
 
-                            Log.d("RemoteConfig", "Current: $currentVersionCode, MinRequired: $minVersionCode")
+                            // Logs for debugging
+                            Log.w("FORCE_UPDATE_TEST", "Current: $currentVersionCode, MinRequired: $minVersionCode")
 
-                            // Trigger update if current version is less than the minimum required
                             if (currentVersionCode < minVersionCode) {
                                 showUpdateDialog(updateMessage, updateUrl)
                             }
+                        } else {
+                            Log.e("FORCE_UPDATE_TEST", "Fetch failed: ${task.exception}")
                         }
                     }
 
+                // Call your Composable here inside NaguOrgTheme
                 NaguOrganicsApp()
             }
         }
@@ -71,18 +70,16 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun showUpdateDialog(message: String, url: String) {
+        // Use 'this' as the context
         AlertDialog.Builder(this)
             .setTitle("App Update Required")
             .setMessage(message)
-            .setCancelable(false) // User cannot click outside the dialog to dismiss it
+            .setCancelable(false)
             .setPositiveButton("Update") { _, _ ->
-                // Redirect user to the store or browser
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
                 startActivity(intent)
-                // Optional: Close the app after sending them to update
                 finish()
             }
-            // Removed the NegativeButton ("Later") entirely
             .show()
     }
 
