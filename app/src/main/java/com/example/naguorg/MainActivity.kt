@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
                 // Initialize Remote Config
                 val remoteConfig = Firebase.remoteConfig
                 val configSettings = remoteConfigSettings {
-                    minimumFetchIntervalInSeconds = 360
+                    minimumFetchIntervalInSeconds = 0
                 }
                 remoteConfig.setConfigSettingsAsync(configSettings)
 
@@ -41,10 +41,15 @@ class MainActivity : ComponentActivity() {
                             val updateMessage = remoteConfig.getString("update_message")
                             // You should also have an 'update_url' parameter in Firebase
                             val updateUrl = remoteConfig.getString("update_url")
+                            // Add this line to debug in Logcat
+                            Log.d("RemoteConfig", "Message: $updateMessage, URL: $updateUrl")
 
                             if (updateMessage.isNotEmpty() && updateUrl.isNotEmpty()) {
                                 showUpdateDialog(updateMessage, updateUrl)
                             }
+                        }
+                        else {
+                            Log.e("RemoteConfig", "Fetch failed: ${task.exception}")
                         }
                     }
 
