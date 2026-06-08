@@ -27,8 +27,10 @@ android {
         applicationId = "com.example.naguorg"
         minSdk = 24
         targetSdk = 35
-        versionCode = 3
-        versionName = "1.3"
+        val jenkinsBuildNumber = System.getenv("BUILD_NUMBER")?.toInt() ?: 1
+
+        versionCode = jenkinsBuildNumber
+        versionName = "1.${jenkinsBuildNumber}"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -51,7 +53,7 @@ android {
                 artifactType = "APK"
                 // This path is correct for assembleRelease output
                 artifactPath = "app/build/outputs/apk/release/app-release.apk"
-                releaseNotes = "Production Release v1.1"
+                releaseNotes = "Production Release v1.4"
                 groups = "testers"
             }
         }
@@ -98,10 +100,10 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
-    implementation ("com.google.accompanist:accompanist-swiperefresh:0.24.13-rc")
-    implementation ("androidx.work:work-runtime-ktx:2.8.1")
-    implementation ("com.cloudinary:cloudinary-android:2.3.1")
-    implementation ("com.squareup.okhttp3:okhttp:4.9.3")
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.24.13-rc")
+    implementation("androidx.work:work-runtime-ktx:2.8.1")
+    implementation("com.cloudinary:cloudinary-android:2.3.1")
+    implementation("com.squareup.okhttp3:okhttp:4.9.3")
     implementation("androidx.compose.foundation:foundation:1.6.0")
     implementation("com.google.firebase:firebase-appcheck-playintegrity:17.0.1")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
@@ -115,6 +117,6 @@ dependencies {
 
     implementation("com.google.zxing:core:3.5.2")
     implementation("androidx.compose.ui:ui-graphics:1.5.0")
-    implementation ("com.google.android.gms:play-services-base:18.2.0")
-    implementation ("com.google.android.gms:play-services-wallet:19.2.0")
+    implementation("com.google.android.gms:play-services-base:18.2.0")
+    implementation("com.google.android.gms:play-services-wallet:19.2.0")
 }

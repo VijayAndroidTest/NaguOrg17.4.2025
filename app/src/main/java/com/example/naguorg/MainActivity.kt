@@ -35,21 +35,30 @@ class MainActivity : ComponentActivity() {
                 remoteConfig.setConfigSettingsAsync(configSettings)
 
                 // Fetch and Activate
+                // ... inside onCreate, in the fetchAndActivate listener
                 remoteConfig.fetchAndActivate()
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
                             val updateMessage = remoteConfig.getString("update_message")
-                            // You should also have an 'update_url' parameter in Firebase
                             val updateUrl = remoteConfig.getString("update_url")
-                            // Add this line to debug in Logcat
-                            Log.d("RemoteConfig", "Message: $updateMessage, URL: $updateUrl")
 
-                            if (updateMessage.isNotEmpty() && updateUrl.isNotEmpty()) {
+                            // Get the minimum version allowed
+                            val minVersionCode = remoteConfig.getLong("min_version_code").toInt()
+
+                            // Get current app version
+                            val currentVersionCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                                packageManager.getPackageInfo(packageName, 0).longVersionCode.toInt()
+                            } else {
+                                @Suppress("DEPRECATION")
+                                packageManager.getPackageInfo(packageName, 0).versionCode
+                            }
+
+                            Log.d("RemoteConfig", "Current: $currentVersionCode, MinRequired: $minVersionCode")
+
+                            // Trigger update if current version is less than the minimum required
+                            if (currentVersionCode < minVersionCode) {
                                 showUpdateDialog(updateMessage, updateUrl)
                             }
-                        }
-                        else {
-                            Log.e("RemoteConfig", "Fetch failed: ${task.exception}")
                         }
                     }
 
@@ -63,15 +72,17 @@ class MainActivity : ComponentActivity() {
 
     private fun showUpdateDialog(message: String, url: String) {
         AlertDialog.Builder(this)
-            .setTitle("App Update Available")
+            .setTitle("App Update Required")
             .setMessage(message)
-            .setCancelable(false) // Prevent user from dismissing if it's a mandatory update
+            .setCancelable(false) // User cannot click outside the dialog to dismiss it
             .setPositiveButton("Update") { _, _ ->
                 // Redirect user to the store or browser
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
                 startActivity(intent)
+                // Optional: Close the app after sending them to update
+                finish()
             }
-            .setNegativeButton("Later", null)
+            // Removed the NegativeButton ("Later") entirely
             .show()
     }
 
