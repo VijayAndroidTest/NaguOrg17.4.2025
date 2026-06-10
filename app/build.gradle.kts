@@ -17,9 +17,9 @@ android {
     signingConfigs {
         create("release") {
             storeFile = file("C:\\Jenkins\\keys\\nagukey.jks")
-            storePassword = System.getenv("KEYSTORE_PASSWORD")
+            storePassword = System.getenv("KEYSTORE_PASSWORD")?:"Vijay@123"
             keyAlias = "nagukey"
-            keyPassword = System.getenv("KEY_PASSWORD")
+            keyPassword = System.getenv("KEY_PASSWORD")?:"Vijay@123"
         }
     }
 
@@ -27,10 +27,12 @@ android {
         applicationId = "com.example.naguorg"
         minSdk = 24
         targetSdk = 35
-        val jenkinsBuildNumber = System.getenv("BUILD_NUMBER")?.toInt() ?: 1
-
-        versionCode = jenkinsBuildNumber
-        versionName = "1.${jenkinsBuildNumber}"
+//        val jenkinsBuildNumber = System.getenv("BUILD_NUMBER")?.toInt() ?: 1
+//
+//        versionCode = jenkinsBuildNumber
+//        versionName = "1.${jenkinsBuildNumber}"
+        versionCode=27
+        versionName="nagu update"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -113,8 +115,11 @@ dependencies {
     implementation("androidx.room:room-runtime:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
-
-
+    implementation("com.cashfree.pg:api:2.2.8")
+    implementation("com.cashfree.pg:ui:2.2.8")
+    implementation("com.cashfree.pg:ui:2.2.8")
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
     implementation("com.google.zxing:core:3.5.2")
     implementation("androidx.compose.ui:ui-graphics:1.5.0")
     implementation("com.google.android.gms:play-services-base:18.2.0")
