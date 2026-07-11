@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [Product::class], version = 2, exportSchema = true)
+@Database(entities = [Product::class], version = 3, exportSchema = true)
 abstract class ProductDatabase : RoomDatabase() {
 
     abstract fun productDao(): ProductDao
@@ -22,7 +22,8 @@ abstract class ProductDatabase : RoomDatabase() {
                     context.applicationContext,
                     ProductDatabase::class.java,
                     "product_database"
-                ) .addMigrations(MIGRATION_1_2) // Add migration
+                ) .addMigrations( MIGRATION_1_2,
+                    MIGRATION_2_3) // Add migration
                     .build()
                 INSTANCE = instance
                 instance
@@ -31,6 +32,16 @@ abstract class ProductDatabase : RoomDatabase() {
         private val MIGRATION_1_2 = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE products ADD COLUMN description TEXT DEFAULT ''")
+            }
+        }
+
+        val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("""
+            CREATE INDEX IF NOT EXISTS
+            index_products_category
+            ON products(category)
+        """.trimIndent())
             }
         }
     }

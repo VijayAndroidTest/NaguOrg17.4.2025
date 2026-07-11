@@ -35,10 +35,11 @@ android {
         versionName="nagu update"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        kapt {
-            arguments {
-                arg("room.schemaLocation", "$projectDir/schemas")
-            }
+
+    }
+    kapt {
+        arguments {
+            arg("room.schemaLocation", "$projectDir/schemas")
         }
     }
 
@@ -108,6 +109,7 @@ dependencies {
     testImplementation(libs.junit)
     // Room Testin Migration db
     androidTestImplementation("androidx.room:room-testing:2.6.1")
+    androidTestImplementation("androidx.test:runner:1.6.2")
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
