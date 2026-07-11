@@ -2,10 +2,14 @@ package com.example.naguorg
 
 import android.os.Parcelable
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 @Parcelize
-@Entity(tableName = "products") // Room entity
+@Entity(tableName = "products", indices = [
+    Index("category")
+]) // Room entity
+
 data class Product(
     @PrimaryKey(autoGenerate = true) val id: Int = 0, // Auto-generate ID
     val name: String = "",

@@ -337,22 +337,5 @@ fun CartScreen(cartItems: List<Product>, onCartUpdated: (List<Product>) -> Unit)
         }
     }
 
-//    fun shareCartToWhatsApp(context: Context, cartItems: List<Product>, phoneNumber: String) {
-//        val message = buildString {
-//            append("Order Details:\n")
-//            cartItems.forEach { product ->
-//                append("- ${product.name} (Qty: ${product.quantity}) - ₹${product.DP}\n")
-//            }
-//            append("Total: ₹${cartItems.sumOf { it.DP * it.quantity }}")
-//        }
-//
-//        val uri = Uri.parse("https://api.whatsapp.com/send?phone=$phoneNumber&text=${Uri.encode(message)}")
-//        val intent = Intent(Intent.ACTION_VIEW, uri)
-//        try {
-//            context.startActivity(intent)
-//        } catch (e: Exception) {
-//            Log.e("WhatsApp", "WhatsApp not installed or error occurred", e)
-//        }
-//    }
 
 }

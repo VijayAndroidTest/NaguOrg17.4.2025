@@ -34,6 +34,12 @@ android {
         versionCode=27
         versionName="nagu update"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas")
+            }
+        }
     }
 
     buildTypes {
@@ -58,6 +64,12 @@ android {
                 releaseNotes = "Production Release v1.4"
                 groups = "testers"
             }
+        }
+
+    }
+    sourceSets {
+        getByName("androidTest") {
+            assets.srcDirs(files("$projectDir/schemas"))
         }
     }
     compileOptions {
@@ -94,6 +106,8 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.2.2")
     implementation(libs.firebase.perf)
     testImplementation(libs.junit)
+    // Room Testin Migration db
+    androidTestImplementation("androidx.room:room-testing:2.6.1")
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
