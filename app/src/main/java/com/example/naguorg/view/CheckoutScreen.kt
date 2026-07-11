@@ -1,22 +1,38 @@
-package com.example.naguorg
+package com.example.naguorg.view
 
-import android.R.id.message
-import android.content.ContentValues
-import android.content.Context
 import android.graphics.Bitmap
-import android.net.Uri
-import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,134 +45,29 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.naguorg.ui.theme.NaguOrgTheme
-import com.google.zxing.BarcodeFormat
-import com.google.zxing.MultiFormatWriter
-import com.google.zxing.common.BitMatrix
-import com.cashfree.pg.api.CFPaymentGatewayService
-import com.cashfree.pg.core.api.CFSession
+import com.example.naguorg.generateQRCode
+import com.example.naguorg.products.Product
+import com.example.naguorg.saveImageToGallery
+import com.example.naguorg.viewmodel.CheckoutViewModel
 
-import com.cashfree.pg.core.api.callback.CFCheckoutResponseCallback
-import com.cashfree.pg.core.api.exception.CFException
-import com.cashfree.pg.core.api.utils.CFErrorResponse
+@Composable
+fun CheckoutScreen(
+    cartItems: List<Product>,
+    upiId: String,
+    viewModel: CheckoutViewModel,
+    onPayClick: (Double) -> Unit
+) {
+    val context = LocalContext.current
+    var qrCodeBitmap by remember { mutableStateOf<Bitmap?>(null) }
+    var isLoading by remember { mutableStateOf(false) }
+    val totalAmount = cartItems.sumOf { it.DP * it.quantity }.toDouble()
 
-import com.cashfree.pg.ui.api.CFDropCheckoutPayment
-import org.json.JSONObject
-import java.io.OutputStream
-
-class CheckoutActivity : ComponentActivity(), CFCheckoutResponseCallback {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        // Register callback within the class
-        CFPaymentGatewayService.getInstance().setCheckoutCallback(this)
-
-        val cartItems: ArrayList<Product>? = intent.getParcelableArrayListExtra("cart_items")
-        setContent {
-            NaguOrgTheme {
-                CheckoutScreen(
-                    cartItems = cartItems ?: emptyList(),
-                    upiId = "sthennarasu1996s@okaxis",
-                    onPayClick = { total -> startPayment(total) }
-                )
-            }
+    // 1. Observe the ViewModel state for Cashfree Session
+    LaunchedEffect(viewModel.paymentSession) {
+        viewModel.paymentSession?.let { order ->
+            (context as? CheckoutActivity)?.startCashfreePayment(order)
         }
     }
-
-    private fun startPayment(amount: Double) {
-
-        RetrofitClient.api.createOrder(
-            OrderRequest(amount)
-        ).enqueue(object : retrofit2.Callback<OrderResponse> {
-
-            override fun onResponse(
-                call: retrofit2.Call<OrderResponse>,
-                response: retrofit2.Response<OrderResponse>
-            ) {
-
-                if (response.isSuccessful && response.body() != null) {
-
-                    val order = response.body()!!
-
-                    try {
-
-                        val session = CFSession.CFSessionBuilder()
-                            .setEnvironment(CFSession.Environment.SANDBOX)
-                            .setOrderId(order.orderId)
-                            .setPaymentSessionID(order.paymentSessionId)
-                            .build()
-
-                        val payment = CFDropCheckoutPayment
-                            .CFDropCheckoutPaymentBuilder()
-                            .setSession(session)
-                            .build()
-
-                        CFPaymentGatewayService
-                            .getInstance()
-                            .doPayment(this@CheckoutActivity, payment)
-
-                    } catch (e: CFException) {
-                        e.printStackTrace()
-
-                        Toast.makeText(
-                            this@CheckoutActivity,
-                            e.message,
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-
-                } else {
-
-                    Toast.makeText(
-                        this@CheckoutActivity,
-                        "Failed to create order",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            }
-
-            override fun onFailure(
-                call: retrofit2.Call<OrderResponse>,
-                t: Throwable
-            ) {
-
-                Toast.makeText(
-                    this@CheckoutActivity,
-                    t.message,
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        })
-    }
-//
-
-    override fun onPaymentVerify(orderID: String) {
-        Toast.makeText(this, "Payment Successful", Toast.LENGTH_LONG).show()
-    }
-
-    override fun onPaymentFailure(
-        p0: CFErrorResponse?,
-        p1: String?
-    ) {
-        Toast.makeText(this, "Payment Failed: ", Toast.LENGTH_LONG).show()
-    }
-
-    fun captureScreenAndSave() {
-        // Ensure saveImageToGallery is defined elsewhere in your project
-        val view = window.decorView.rootView
-        val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
-        val canvas = android.graphics.Canvas(bitmap)
-        view.draw(canvas)
-        saveImageToGallery(this, bitmap, "Checkout_Screenshot")
-    }
-}
-@Composable
-fun CheckoutScreen(cartItems: List<Product>, upiId: String, onPayClick: (Double) -> Unit) {
-    var qrCodeBitmap by remember { mutableStateOf<Bitmap?>(null) }
-    val context = LocalContext.current
-    val totalAmount = cartItems.sumOf { it.DP * it.quantity }
-    var isLoading by remember { mutableStateOf(false) }
 
     // Use a Scaffold structure to lock action buttons cleanly at the bottom
     Scaffold(
@@ -352,4 +263,3 @@ fun CheckoutScreen(cartItems: List<Product>, upiId: String, onPayClick: (Double)
         }
     }
 }
-

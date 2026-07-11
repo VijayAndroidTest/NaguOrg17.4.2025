@@ -1,4 +1,4 @@
-package com.example.naguorg
+package com.example.naguorg.domain_api
 
 import com.google.gson.annotations.SerializedName
 

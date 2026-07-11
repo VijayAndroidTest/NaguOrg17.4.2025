@@ -1,5 +1,6 @@
 package com.example.naguorg
 
+import com.example.naguorg.products.Product
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

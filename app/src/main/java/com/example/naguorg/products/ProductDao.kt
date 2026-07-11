@@ -1,4 +1,4 @@
-package com.example.naguorg
+package com.example.naguorg.products
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -8,10 +8,10 @@ import androidx.room.Update
 
 @Dao
 interface ProductDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.Companion.REPLACE)
     suspend fun insertProducts(products: List<Product>) // Bulk Insert
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.Companion.REPLACE)
     suspend fun insertProduct(product: Product) // Single Insert
 
     @Query("SELECT * FROM products WHERE category = :category")

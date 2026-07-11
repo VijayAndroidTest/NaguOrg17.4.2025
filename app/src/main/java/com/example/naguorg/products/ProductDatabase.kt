@@ -1,4 +1,4 @@
-package com.example.naguorg
+package com.example.naguorg.products
 
 import android.content.Context
 import androidx.room.Database

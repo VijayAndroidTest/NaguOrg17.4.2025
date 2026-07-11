@@ -1,10 +1,11 @@
-package com.example.naguorg
+package com.example.naguorg.products
 
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
+
 @Parcelize
 @Entity(tableName = "products", indices = [
     Index("category")
@@ -18,6 +19,6 @@ data class Product(
     val category : String = "",
     val MRP: Int = 0,  // Changed from String to Int
     val DP: Int = 0,
-    var quantity: Int = 1 ,// Allow quantity changes
+    var quantity: Int = 1,// Allow quantity changes
     val description: String = "" // Add this field
 ) : Parcelable

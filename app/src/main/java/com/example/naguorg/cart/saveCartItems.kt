@@ -1,8 +1,8 @@
-package com.example.naguorg.ui.theme
+package com.example.naguorg.cart
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.naguorg.Product
+import com.example.naguorg.products.Product
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 

@@ -1,4 +1,4 @@
-package com.example.naguorg
+package com.example.naguorg.view
 
 import android.Manifest
 import android.app.AlertDialog
@@ -11,10 +11,15 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.remember
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.naguorg.products.ProductDatabase
+import com.example.naguorg.repository.ProductRepository
 import com.example.naguorg.ui.theme.NaguOrgTheme
+import com.example.naguorg.viewmodel.ProductViewModel
 import com.google.firebase.Firebase
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.remoteconfig.remoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings
@@ -26,6 +31,17 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
+            val repository = remember {
+                ProductRepository(
+                    context = this,
+                    firestore = FirebaseFirestore.getInstance(),
+                    database = ProductDatabase.getDatabase(this)
+                )
+            }
+
+            val viewModel = remember {
+                ProductViewModel(repository)
+            }
             NaguOrgTheme {
                 // Initialize Remote Config
                 val remoteConfig = Firebase.remoteConfig
@@ -42,15 +58,22 @@ class MainActivity : ComponentActivity() {
                             val updateUrl = remoteConfig.getString("update_url")
                             val minVersionCode = remoteConfig.getLong("min_version_code").toInt()
 
-                            val currentVersionCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                                packageManager.getPackageInfo(packageName, 0).longVersionCode.toInt()
-                            } else {
-                                @Suppress("DEPRECATION")
-                                packageManager.getPackageInfo(packageName, 0).versionCode
-                            }
+                            val currentVersionCode =
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                                    packageManager.getPackageInfo(
+                                        packageName,
+                                        0
+                                    ).longVersionCode.toInt()
+                                } else {
+                                    @Suppress("DEPRECATION")
+                                    packageManager.getPackageInfo(packageName, 0).versionCode
+                                }
 
                             // Logs for debugging
-                            Log.w("FORCE_UPDATE_TEST", "Current: $currentVersionCode, MinRequired: $minVersionCode")
+                            Log.w(
+                                "FORCE_UPDATE_TEST",
+                                "Current: $currentVersionCode, MinRequired: $minVersionCode"
+                            )
 
                             if (currentVersionCode < minVersionCode) {
                                 showUpdateDialog(updateMessage, updateUrl)
@@ -61,7 +84,9 @@ class MainActivity : ComponentActivity() {
                     }
 
                 // Call your Composable here inside NaguOrgTheme
-                NaguOrganicsApp()
+                NaguOrganicsApp(
+                    viewModel = viewModel
+                )
             }
         }
 

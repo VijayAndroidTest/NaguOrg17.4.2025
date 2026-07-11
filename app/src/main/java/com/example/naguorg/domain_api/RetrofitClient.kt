@@ -1,14 +1,18 @@
-package com.example.naguorg
+package com.example.naguorg.domain_api
+
+import com.example.naguorg.domain_api.CashfreeApi
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 
     private const val BASE_URL = "https://cashfreebackend-fkf3.onrender.com/"
 
     val api: CashfreeApi by lazy {
-        retrofit2.Retrofit.Builder()
+        Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(
-                retrofit2.converter.gson.GsonConverterFactory.create()
+                GsonConverterFactory.create()
             )
             .build()
             .create(CashfreeApi::class.java)

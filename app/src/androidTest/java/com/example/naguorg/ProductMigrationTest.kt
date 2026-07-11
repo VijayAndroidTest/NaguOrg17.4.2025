@@ -3,7 +3,8 @@ package com.example.naguorg
 import androidx.room.testing.MigrationTestHelper
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.example.naguorg.ProductDatabase.Companion.MIGRATION_2_3
+import com.example.naguorg.products.ProductDatabase
+import com.example.naguorg.products.ProductDatabase.Companion.MIGRATION_2_3
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
 import org.junit.Rule

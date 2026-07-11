@@ -27,11 +27,11 @@
             android:networkSecurityConfig="@xml/network_security_config"
             tools:targetApi="31">
             <activity
-                android:name=".CheckoutActivity"
+                android:name=".view.CheckoutActivity"
                 android:exported="true"
                 android:theme="@style/Theme.NaguOrg" />
             <activity
-                android:name=".CartActivity"
+                android:name=".view.CartActivity"
                 android:exported="true"
                 android:label="@string/title_activity_cart"
                 android:theme="@style/Theme.NaguOrg" >
@@ -56,7 +56,7 @@
                 </intent-filter>
             </activity>
             <activity
-                android:name=".MainActivity"
+                android:name=".view.MainActivity"
                 android:exported="true"
                 android:label="@string/app_name"
                 android:theme="@style/Theme.NaguOrg">

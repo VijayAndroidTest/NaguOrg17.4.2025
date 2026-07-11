@@ -1,13 +1,10 @@
-package com.example.naguorg
+package com.example.naguorg.products
 
 import android.app.Activity
 import android.content.Intent
-import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTransformGestures
@@ -22,7 +19,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -57,30 +53,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.unit.times
 import androidx.compose.ui.window.Dialog
-import androidx.lifecycle.viewmodel.CreationExtras
 import coil.compose.AsyncImage
-import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import com.example.naguorg.ui.theme.getCartItems
-import com.example.naguorg.ui.theme.saveCartItems
-import com.google.gson.Gson
-import kotlin.time.times
+import com.example.naguorg.view.CartActivity
+import com.example.naguorg.R
+import com.example.naguorg.cart.getCartItems
+import com.example.naguorg.cart.saveCartItems
 
 // Declare cartList globally or inside a ViewModel
 val cartList = mutableListOf<Product>()
 
 @Composable
-fun ProductItem(product: Product,  onAddToCart: (Product) -> Unit) {
+fun ProductItem(product: Product, onAddToCart: (Product) -> Unit) {
     var showDialog by remember { mutableStateOf(false) }
 
     Box(
@@ -179,7 +167,7 @@ fun ProductItem(product: Product,  onAddToCart: (Product) -> Unit) {
                     val newProduct = Product(
                         name = product.name,
                         DP = product.DP,
-                        MRP =product.MRP,
+                        MRP = product.MRP,
                         disc = product.disc,
                         image = product.image,
                         description = product.description,
