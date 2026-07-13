@@ -45,9 +45,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.naguorg.generateQRCode
-import com.example.naguorg.products.Product
-import com.example.naguorg.saveImageToGallery
+import com.example.naguorg.feature_cart.data.generateQRCode
+import com.example.naguorg.feature_products.domain.Product
+import com.example.naguorg.feature_cart.data.saveImageToGallery
 import com.example.naguorg.viewmodel.CheckoutViewModel
 
 @Composable

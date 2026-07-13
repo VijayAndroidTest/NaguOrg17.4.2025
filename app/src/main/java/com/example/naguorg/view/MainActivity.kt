@@ -14,10 +14,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.remember
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.naguorg.products.ProductDatabase
-import com.example.naguorg.repository.ProductRepository
+import com.example.naguorg.feature_products.data.ProductDatabase
+import com.example.naguorg.feature_products.domain.GetProductsByCategoryUseCase
+import com.example.naguorg.feature_products.domain.ProductRepository
+import com.example.naguorg.feature_products.presentation.NaguOrganicsApp
 import com.example.naguorg.ui.theme.NaguOrgTheme
-import com.example.naguorg.viewmodel.ProductViewModel
+import com.example.naguorg.feature_products.presentation.ProductViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
@@ -38,9 +40,11 @@ class MainActivity : ComponentActivity() {
                     database = ProductDatabase.getDatabase(this)
                 )
             }
-
+            val getProductsByCategoryUseCase = remember {
+                GetProductsByCategoryUseCase(repository)
+            }
             val viewModel = remember {
-                ProductViewModel(repository)
+                ProductViewModel(getProductsByCategoryUseCase)
             }
             NaguOrgTheme {
                 // Initialize Remote Config

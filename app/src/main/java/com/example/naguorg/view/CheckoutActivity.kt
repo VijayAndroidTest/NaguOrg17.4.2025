@@ -17,9 +17,9 @@ import com.cashfree.pg.core.api.utils.CFErrorResponse
 
 import com.cashfree.pg.ui.api.CFDropCheckoutPayment
 import com.example.naguorg.domain_api.OrderResponse
-import com.example.naguorg.products.Product
+import com.example.naguorg.feature_products.domain.Product
 import com.example.naguorg.repository.CheckoutRepository
-import com.example.naguorg.saveImageToGallery
+import com.example.naguorg.feature_cart.data.saveImageToGallery
 import com.example.naguorg.viewmodel.CheckoutViewModel
 
 class CheckoutActivity : ComponentActivity(), CFCheckoutResponseCallback {

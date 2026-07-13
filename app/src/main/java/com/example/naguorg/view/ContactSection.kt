@@ -20,7 +20,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.naguorg.R
-import com.example.naguorg.SocialMediaIcon
+import com.example.naguorg.nage_common.SocialMediaIcon
 
 
 @Composable

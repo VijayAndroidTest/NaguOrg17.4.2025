@@ -1,6 +1,7 @@
 package com.example.naguorg
 
-import com.example.naguorg.products.Product
+import com.example.naguorg.feature_cart.domain.calculateTotalPriceUseCase
+import com.example.naguorg.feature_products.domain.Product
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -14,13 +15,13 @@ class CartCalculationTest {
             Product(name = "Oil", DP = 50, quantity = 1)     // 50
         )
         // Total should be 250.0
-        assertEquals(250.0, calculateTotalPrice(cart), 0.001)
+        assertEquals(250.0, calculateTotalPriceUseCase(cart), 0.001)
     }
 
     @Test
     fun testInvalidPriceHandlesGracefully() {
         // Test what happens if DP is not a valid number
         val cart = listOf(Product(name = "BadData", DP = 0, quantity = 1))
-        assertEquals(0.0, calculateTotalPrice(cart), 0.001)
+        assertEquals(0.0, calculateTotalPriceUseCase(cart), 0.001)
     }
 }
